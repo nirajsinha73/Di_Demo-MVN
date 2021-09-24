@@ -1,0 +1,77 @@
+stages:
+  - build-application
+  - unit-testing
+  - analysis
+  - upload-artifacts
+  - build-image
+  - download
+
+build-application:
+  stage: build-application
+  image:
+    name: maven:3-jdk-8-alpine
+  script:
+   - echo "pipeline ID -> $CI_PIPELINE_ID"
+   - echo "job ID -> $CI_PIPELINE_IID"
+   - echo "build version -> $BUILD_VERSION"
+   - echo "project name -> $CI_PROJECT_NAME"
+   - mvn clean package -DskipTests
+   - echo 'build completed.....'
+  artifacts:
+    paths:
+      - "target/*"   
+    expire_in: 7 day
+    
+unit-testing:
+  stage: unit-testing
+  image:
+    name: maven:3-jdk-8-alpine
+  script:
+    - echo "Unit Testing"
+    - echo "job ID -> $CI_PIPELINE_IID"
+    - mvn test -Dtest=org.sopra.sample.*Test
+
+sonar-analysis:
+  stage: analysis
+  image: ciricihq/gitlab-sonar-scanner
+  variables:
+    SONAR_ANALYSIS_MODE: publish
+  script:
+    - echo "Code Quality Analysis ..."
+    - gitlab-sonar-scanner -Dsonar.login=$SONAR_TOKEN -Dsonar.gitlab.project_id=$CI_PROJECT_PATH -Dsonar.gitlab.commit_sha=$CI_COMMIT_REF -Dsonar.gitlab.ref_name=$CI_COMMIT_REF_NAME -Dsonar.gitlab.json_mode=CODECLIMATE -Dsonar.gitlab.failure_notification_mode=commit-status
+  only:
+    variables:
+      - $SONAR_URL
+      - $SONAR_TOKEN
+
+upload-artifacts:
+  stage: upload-artifacts
+  image: curlimages/curl:latest
+  script:
+    - 'curl --header "JOB-TOKEN: $CI_JOB_TOKEN" --upload-file target/di-demo-mvn.war "${CI_API_V4_URL}/projects/${CI_PROJECT_ID}/packages/generic/war_package/${CI_PIPELINE_IID}/di-demo-mvn.war"'
+
+build-image:
+  stage: build-image
+  image:
+    name: gcr.io/kaniko-project/executor:debug
+    entrypoint: [""]
+  script:
+    - mkdir -p /kaniko/.docker
+    - echo "{\"auths\":{\"$CI_REGISTRY\":{\"username\":\"$CI_REGISTRY_USER\",\"password\":\"$CI_REGISTRY_PASSWORD\"}}}" > /kaniko/.docker/config.json
+    - /kaniko/executor --context $CI_PROJECT_DIR --dockerfile $CI_PROJECT_DIR/Dockerfile --destination $CI_REGISTRY_IMAGE:${CI_PIPELINE_IID}
+
+.artifact_download_deploy:
+  stage: download
+  tags:
+    - demo-vm
+  script:
+    - echo "${CI_API_V4_URL}"
+    - echo "${CI_PROJECT_ID}"
+    - echo "hi${CI_PIPELINE_IID}bye"
+    - 'wget --header="JOB-TOKEN: $CI_JOB_TOKEN" ${CI_API_V4_URL}/projects/${CI_PROJECT_ID}/packages/generic/war_package/${CI_PIPELINE_IID}/di-demo-mvn.war'    
+    - echo " workspace - $CI_PROJECT_DIR"
+    - cd /home/gitlab-runner
+    - cp /home/gitlab-runner/builds/ybCc4PTT/0/dethakur/di-demo-mvn/di-demo-mvn.war demo/
+
+   
+
