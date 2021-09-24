@@ -23,7 +23,7 @@ public class Functional_Test {
 		// Launch website
 		driver.navigate().to("https://master-di-india-demo-di-india-demo.apps.ocp4.innershift.sodigital.io/di-india-demo/");
 		driver.navigate().refresh();
-		TimeUnit.SECONDS.sleep(10);
+		TimeUnit.SECONDS.sleep(30);
 		// Click on the search text box and send value
 		WebElement divElement = driver.findElement(By.id("header_h1"));
 		String str = divElement.getText();
