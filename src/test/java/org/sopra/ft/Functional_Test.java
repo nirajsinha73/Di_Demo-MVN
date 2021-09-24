@@ -15,11 +15,11 @@ public class Functional_Test {
 
 	@Test
 	public void functionalTest() throws InterruptedException {
-	//System.setProperty("webdriver.chrome.driver", "C:\\Workspace\\chromedriver_win32\\chromedriver.exe");
-    	ChromeOptions options = new ChromeOptions();
-        options.addArguments("--headless");
-        options.addArguments("--disable-gpu");
-		WebDriver driver = new ChromeDriver(options);
+	System.setProperty("webdriver.chrome.driver", "C:\\Office Work\\Software\\chromedriver.exe");
+    	//ChromeOptions options = new ChromeOptions();
+        //options.addArguments("--headless");
+        //options.addArguments("--disable-gpu");
+		WebDriver driver = new ChromeDriver();
 		// Launch website
 		driver.navigate().to("https://master-di-india-demo-di-india-demo.apps.ocp4.innershift.sodigital.io/di-india-demo/");
 		driver.navigate().refresh();
