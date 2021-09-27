@@ -90,7 +90,7 @@
         <repository>
             <id>di-india-demo</id>
             <name>releases</name>
-            <url>https://nexus-di-demo.apps.cicd.arcus.soprasteria.com/repository/di-india-demo/</url>
+            <url>https://nexus3-demo-123.apps.cicd.arcus.soprasteria.com/repository/SampleApp_Demo/</url>
         </repository>
     </distributionManagement>
 </project>
