@@ -10,8 +10,8 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
-from selenium import webdriver;
-from selenium.webdriver.chrome.options import Options;
+from selenium import webdriver
+from selenium.webdriver.chrome.options import Options
 
 public class Functional_Test {
 
