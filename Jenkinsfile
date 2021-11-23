@@ -16,9 +16,9 @@ pipeline{
         steps
         { 
            // bat 'cd src/main/'
-            bat "cd src/main && Jenkinsfile"
+          //  bat "cd src/main && Jenkinsfile"
             
-         //   build job: 'Jenkinsfile' , parameters: [string( name: " ", value: " ")]
+            build job: 'demopipe' , parameters: [string( name: " ", value: " ")]
                   }
     }
     
