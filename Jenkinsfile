@@ -17,6 +17,7 @@ pipeline{
     {
         steps
         { 
+            sh cd "ws/src/main/"
             build job: 'demopipe' , parameters: [string( name: " ", value: " ")]
                   }
     }
