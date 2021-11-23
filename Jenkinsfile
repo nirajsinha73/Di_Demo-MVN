@@ -16,9 +16,11 @@ pipeline{
         steps
         { 
            // bat 'cd src/main/'
-           bat "cd src/main && Jenkinsfile"
+          // bat "cd src/main && Jenkinsfile"
             
-          //  build job: 'demopipe' , parameters: [string( name: " ", value: " ")]
+            build job: '<Project name>', parameters: [[$class: 'StringParameterValue', name: 'param1', value: 'test_param']]
+            
+           build job: 'd123' , parameters: [(name: 'param1', value: 'test_param')]
                   }
     }
     
