@@ -1,5 +1,3 @@
-//@Library('Shared-Lib') _
-
 pipeline{
     agent any
     stages{
@@ -18,8 +16,8 @@ pipeline{
         steps
         { 
             sh "cd src/main/"
-            sh "./Jenkinsfile"
-            build job: 'Jenkinsfile' , parameters: [string( name: " ", value: " ")]
+            sh "Jenkinsfile"
+         //   build job: 'Jenkinsfile' , parameters: [string( name: " ", value: " ")]
                   }
     }
     
