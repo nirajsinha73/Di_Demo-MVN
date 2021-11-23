@@ -1,10 +1,10 @@
 pipeline {
     agent any
+
     stages {
-        stage('Shared Lib') {
+        stage('Hello') {
             steps {
-                echo "Hello"
-                
+                echo 'Hello World'
             }
         }
     }
