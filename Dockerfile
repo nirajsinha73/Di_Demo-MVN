@@ -1,8 +1,11 @@
-FROM bitnami/tomcat
-#FROM tomcat:9.0.30-jdk8
+# select parent image
+FROM maven:3.6.3-jdk-8
 
-MAINTAINER DI-India-Team
+# copy the source tree and the pom.xml to our new container
+COPY ./ ./
 
-COPY target/${CI_PROJECT_NAME}*.war /opt/bitnami/tomcat/webapps_default
+# package our application code
+RUN mvn clean package
 
-
+# set the startup command to execute the jar
+#CMD ["java", "-jar", "target/demo-0.0.1-SNAPSHOT.jar"]
